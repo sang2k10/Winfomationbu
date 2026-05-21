@@ -129,9 +129,9 @@ a {
 
 .nav-link {
     font-weight: 600;
-    font-size: 0.88rem;
+    font-size: 1.02rem;
     position: relative;
-    padding: 5px 0;
+    padding: 8px 12px;
     white-space: nowrap;
     letter-spacing: 0.01em;
 }
@@ -626,6 +626,15 @@ main {
         display: flex;
     }
 
+    .top-menu .nav-link {
+        font-size: 1.15rem;
+        padding: 12px 20px;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+    }
+
     .mobile-menu-btn {
         display: block;
     }
@@ -638,12 +647,30 @@ main {
         height: auto;
         min-height: auto;
         margin-bottom: 25px;
+        position: relative;
     }
 
-    .hero-banner {
+    .hero-slider-wrap {
+        height: auto;
         position: relative;
+    }
+
+    .hero-slide {
+        position: relative;
+        display: none;
         height: auto;
         padding: 20px 0;
+        opacity: 0;
+        visibility: hidden;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-slide.active {
+        display: flex;
+        opacity: 1;
+        visibility: visible;
     }
 
     .hero-container {
@@ -1807,9 +1834,9 @@ main {
 }
 
 .rank-badge {
-    font-size: 1.8rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    width: 50px;
+    width: 60px;
     height: 50px;
     border-radius: 12px;
     display: flex;
@@ -1950,9 +1977,9 @@ main {
         gap: 15px;
     }
     .rank-badge {
-        width: 40px;
-        height: 40px;
-        font-size: 1.3rem;
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
     }
     .rank-details {
         flex-direction: column;
