@@ -2055,6 +2055,7 @@ main {
 
 .rank-genres {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
 }
 
@@ -2100,6 +2101,7 @@ main {
     font-size: 0.8rem;
     color: var(--text-secondary);
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     align-items: center;
 }
@@ -2127,12 +2129,18 @@ main {
     }
     .rank-details {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
         gap: 10px;
+        width: 100%;
+    }
+    .rank-main-info {
+        width: 100%;
+        min-width: 0;
     }
     .rank-stats {
         align-items: flex-start;
         min-width: unset;
+        width: 100%;
     }
 }
 
@@ -2817,6 +2825,26 @@ main {
     
     #searchInput:focus {
         width: 145px !important;
+    }
+
+    /* 3. Micro-scale overrides for Leaderboard Cards to prevent overflow */
+    .rank-title {
+        font-size: 1.05rem !important;
+    }
+
+    .rank-counts {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 4px !important;
+    }
+
+    .rank-counts span:nth-child(2) {
+        display: none !important; /* Hide the bullet separator on micro screens */
+    }
+
+    .rank-genres .tag {
+        font-size: 0.7rem !important;
+        padding: 1px 6px !important;
     }
 }
 
