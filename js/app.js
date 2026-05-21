@@ -26,22 +26,30 @@ const app = {
   },
 
 
+  registerUserInteraction() {
+    if (this.userHasInteracted) return;
+    this.userHasInteracted = true;
+
+    if (this._firstInteractionHandler) {
+      document.removeEventListener("click", this._firstInteractionHandler);
+      document.removeEventListener("touchstart", this._firstInteractionHandler);
+      document.removeEventListener("keydown", this._firstInteractionHandler);
+    }
+  },
+
   init() {
     this.userHasInteracted = false;
-    this.detailMutedState = undefined;
+    this.detailMutedState = false; // Default to UNMUTED
 
     // Setup first user interaction detection to unmute videos if system sound is on
     const handleFirstInteraction = () => {
       if (this.userHasInteracted) return;
-      this.userHasInteracted = true;
-      
-      document.removeEventListener("click", handleFirstInteraction);
-      document.removeEventListener("touchstart", handleFirstInteraction);
-      document.removeEventListener("keydown", handleFirstInteraction);
-      
+      this.registerUserInteraction();
       this.unmuteAllActiveVideos();
     };
-    
+
+    this._firstInteractionHandler = handleFirstInteraction;
+
     document.addEventListener("click", handleFirstInteraction, { passive: true });
     document.addEventListener("touchstart", handleFirstInteraction, { passive: true });
     document.addEventListener("keydown", handleFirstInteraction, { passive: true });
@@ -1114,6 +1122,10 @@ const app = {
             JSON.stringify({ event: "command", func: "unMute" }),
             "*"
           );
+          iframe.contentWindow.postMessage(
+            JSON.stringify({ event: "command", func: "playVideo" }),
+            "*"
+          );
         } catch (e) {}
         this.heroMutedState[idx] = false;
         this.updateHeroSlideMuteUI(idx, false);
@@ -1126,6 +1138,10 @@ const app = {
       try {
         detailIframe.contentWindow.postMessage(
           JSON.stringify({ event: "command", func: "unMute" }),
+          "*"
+        );
+        detailIframe.contentWindow.postMessage(
+          JSON.stringify({ event: "command", func: "playVideo" }),
           "*"
         );
       } catch (e) {}
@@ -1154,7 +1170,7 @@ const app = {
     if (!muteBtn || !iframe) return;
 
     if (this.detailMutedState === undefined) {
-      this.detailMutedState = !this.userHasInteracted;
+      this.detailMutedState = false; // Default to UNMUTED
     }
 
     muteBtn.innerHTML = this.detailMutedState
@@ -1162,6 +1178,7 @@ const app = {
       : '<i class="fa-solid fa-volume-high"></i>';
 
     muteBtn.addEventListener("click", () => {
+      this.registerUserInteraction(); // Mark user gesture active
       this.detailMutedState = !this.detailMutedState;
       try {
         if (this.detailMutedState) {
@@ -1172,6 +1189,10 @@ const app = {
         } else {
           iframe.contentWindow.postMessage(
             JSON.stringify({ event: "command", func: "unMute" }),
+            "*",
+          );
+          iframe.contentWindow.postMessage(
+            JSON.stringify({ event: "command", func: "playVideo" }),
             "*",
           );
         }
@@ -1193,7 +1214,7 @@ const app = {
     if (!src) return;
 
     if (this.detailMutedState === undefined) {
-      this.detailMutedState = !this.userHasInteracted;
+      this.detailMutedState = false; // Default to UNMUTED
     }
 
     // Set mute state dynamically in URL to avoid postMessage autoplay policy blocks!
@@ -1386,7 +1407,7 @@ const app = {
     let src = iframe.getAttribute("data-src");
     if (!src) return;
 
-    const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : !this.userHasInteracted;
+    const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : false; // Default to UNMUTED
     this.updateHeroSlideMuteUI(idx, isMuted);
 
     // Set mute state dynamically in URL to avoid postMessage autoplay policy blocks!
@@ -1439,9 +1460,11 @@ const app = {
     const btn = slide.querySelector(".hero-mute-btn");
     if (!iframe || !btn) return;
 
-    const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : !this.userHasInteracted;
+    const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : false; // Default to UNMUTED
     const newMute = !isMuted;
     this.heroMutedState[idx] = newMute;
+
+    this.registerUserInteraction();
 
     try {
       if (newMute) {
@@ -1452,6 +1475,10 @@ const app = {
       } else {
         iframe.contentWindow.postMessage(
           JSON.stringify({ event: "command", func: "unMute" }),
+          "*",
+        );
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: "command", func: "playVideo" }),
           "*",
         );
       }
