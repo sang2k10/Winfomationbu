@@ -27,6 +27,22 @@ const app = {
 
 
   init() {
+    // Cache bust older low-res API responses
+    const CACHE_VERSION = "1.0.3";
+    if (SafeStorage.getItem("winfo_cache_version") !== CACHE_VERSION) {
+      try {
+        for (let i = localStorage.length - 1; i >= 0; i--) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith("winfo_") && !["winfo_lang", "winfo_theme", "winfo_sort"].includes(key)) {
+            localStorage.removeItem(key);
+          }
+        }
+        SafeStorage.setItem("winfo_cache_version", CACHE_VERSION);
+      } catch (e) {
+        console.warn("Failed to bust local cache", e);
+      }
+    }
+
     document.documentElement.setAttribute("data-theme", this.state.theme);
     updateLanguage(currentLang);
 
@@ -1381,6 +1397,11 @@ const app = {
 
     // Mouse hover event delegation with custom active bounds checking
     document.body.addEventListener("mouseover", (e) => {
+      // Bỏ tính năng hiển thị thẻ thông tin sơ lược trên điện thoại / thiết bị cảm ứng
+      if (window.innerWidth <= 768 || window.matchMedia("(pointer: coarse)").matches) {
+        return;
+      }
+
       const target = e.target.closest(".anime-card, .rank-list-item");
       if (!target) return;
 
