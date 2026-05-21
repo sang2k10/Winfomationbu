@@ -2739,10 +2739,31 @@ main {
     .card-title {
         font-size: 0.98rem !important;
         font-weight: 700 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        white-space: normal !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 
     .card-title-vi {
         font-size: 0.85rem !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        white-space: normal !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .rank-title {
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        white-space: normal !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 
     .card-meta {
