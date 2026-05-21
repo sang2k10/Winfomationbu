@@ -27,6 +27,25 @@ const app = {
 
 
   init() {
+    this.userHasInteracted = false;
+    this.detailMutedState = undefined;
+
+    // Setup first user interaction detection to unmute videos if system sound is on
+    const handleFirstInteraction = () => {
+      if (this.userHasInteracted) return;
+      this.userHasInteracted = true;
+      
+      document.removeEventListener("click", handleFirstInteraction);
+      document.removeEventListener("touchstart", handleFirstInteraction);
+      document.removeEventListener("keydown", handleFirstInteraction);
+      
+      this.unmuteAllActiveVideos();
+    };
+    
+    document.addEventListener("click", handleFirstInteraction, { passive: true });
+    document.addEventListener("touchstart", handleFirstInteraction, { passive: true });
+    document.addEventListener("keydown", handleFirstInteraction, { passive: true });
+
     // Cache bust older low-res API responses
     const CACHE_VERSION = "1.0.3";
     if (SafeStorage.getItem("winfo_cache_version") !== CACHE_VERSION) {
@@ -1083,16 +1102,69 @@ const app = {
     });
   },
 
+  unmuteAllActiveVideos() {
+    // 1. Unmute homepage slider
+    if (this.heroSlides && this.heroSlides.length > 0) {
+      const idx = this.heroCurrentIndex;
+      const slide = this.heroSlides[idx];
+      const iframe = slide ? slide.querySelector(".hero-slide-video-iframe") : null;
+      if (iframe) {
+        try {
+          iframe.contentWindow.postMessage(
+            JSON.stringify({ event: "command", func: "unMute" }),
+            "*"
+          );
+        } catch (e) {}
+        this.heroMutedState[idx] = false;
+        this.updateHeroSlideMuteUI(idx, false);
+      }
+    }
+
+    // 2. Unmute detail banner video
+    const detailIframe = document.getElementById("heroVideoIframe");
+    if (detailIframe) {
+      try {
+        detailIframe.contentWindow.postMessage(
+          JSON.stringify({ event: "command", func: "unMute" }),
+          "*"
+        );
+      } catch (e) {}
+      this.detailMutedState = false;
+      const bannerMuteBtn = document.getElementById("bannerMuteBtn");
+      if (bannerMuteBtn) {
+        bannerMuteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      }
+    }
+  },
+
+  updateHeroSlideMuteUI(idx, isMuted) {
+    const slide = this.heroSlides ? this.heroSlides[idx] : null;
+    if (!slide) return;
+    const btn = slide.querySelector(".hero-mute-btn");
+    if (btn) {
+      btn.innerHTML = isMuted
+        ? '<i class="fa-solid fa-volume-xmark"></i>'
+        : '<i class="fa-solid fa-volume-high"></i>';
+    }
+  },
+
   _bindBannerMute(trailerId) {
     const muteBtn = document.getElementById("bannerMuteBtn");
     const iframe = document.getElementById("heroVideoIframe");
     if (!muteBtn || !iframe) return;
 
-    let isMuted = true;
+    if (this.detailMutedState === undefined) {
+      this.detailMutedState = !this.userHasInteracted;
+    }
+
+    muteBtn.innerHTML = this.detailMutedState
+      ? '<i class="fa-solid fa-volume-xmark"></i>'
+      : '<i class="fa-solid fa-volume-high"></i>';
+
     muteBtn.addEventListener("click", () => {
-      isMuted = !isMuted;
+      this.detailMutedState = !this.detailMutedState;
       try {
-        if (isMuted) {
+        if (this.detailMutedState) {
           iframe.contentWindow.postMessage(
             JSON.stringify({ event: "command", func: "mute" }),
             "*",
@@ -1106,7 +1178,7 @@ const app = {
       } catch (e) {
         console.error("Failed to toggle mute via postMessage", e);
       }
-      muteBtn.innerHTML = isMuted
+      muteBtn.innerHTML = this.detailMutedState
         ? '<i class="fa-solid fa-volume-xmark"></i>'
         : '<i class="fa-solid fa-volume-high"></i>';
     });
@@ -1126,6 +1198,20 @@ const app = {
       loaded = true;
       setTimeout(() => {
         iframeWrap.classList.add("playing");
+        try {
+          const isMuted = this.detailMutedState !== undefined ? this.detailMutedState : !this.userHasInteracted;
+          if (isMuted) {
+            iframe.contentWindow.postMessage(
+              JSON.stringify({ event: "command", func: "mute" }),
+              "*",
+            );
+          } else {
+            iframe.contentWindow.postMessage(
+              JSON.stringify({ event: "command", func: "unMute" }),
+              "*",
+            );
+          }
+        } catch (e) {}
       }, 1600);
     };
 
@@ -1301,7 +1387,8 @@ const app = {
     const src = iframe.getAttribute("data-src");
     if (!src) return;
 
-    const isMuted = this.heroMutedState[idx] !== false; // Default: muted background play
+    const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : !this.userHasInteracted;
+    this.updateHeroSlideMuteUI(idx, isMuted);
 
     // Register event listener BEFORE setting src to avoid race conditions
     let loaded = false;
@@ -1357,7 +1444,7 @@ const app = {
     const btn = slide.querySelector(".hero-mute-btn");
     if (!iframe || !btn) return;
 
-    const isMuted = this.heroMutedState[idx] !== false;
+    const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : !this.userHasInteracted;
     const newMute = !isMuted;
     this.heroMutedState[idx] = newMute;
 
@@ -1377,9 +1464,7 @@ const app = {
       console.error("Failed to post message to slide iframe", e);
     }
 
-    btn.innerHTML = newMute
-      ? '<i class="fa-solid fa-volume-xmark"></i>'
-      : '<i class="fa-solid fa-volume-high"></i>';
+    this.updateHeroSlideMuteUI(idx, newMute);
   },
 
   // ===== Hover Preview Tooltip Implementation =====
