@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Anime - Winfomationbu</title>
+    <meta name="description" content="Bảng xếp hạng những bộ anime được yêu thích và đánh giá cao nhất mọi thời đại.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" type="image/png" href="favicon.svg">
+    
+    <!-- SEO / International Standards -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Stanley Nguyen">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sang2k10.github.io/Anime-Web/top.html">
+    <meta property="og:title" content="Top Anime - Winfomationbu">
+    <meta property="og:description" content="Bảng xếp hạng những bộ anime được yêu thích và đánh giá cao nhất mọi thời đại.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&h=630&fit=crop">
+    <meta property="og:site_name" content="Winfomationbu">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sang2k10.github.io/Anime-Web/top.html">
+    <meta property="twitter:title" content="Top Anime - Winfomationbu">
+    <meta property="twitter:description" content="Bảng xếp hạng những bộ anime được yêu thích và đánh giá cao nhất mọi thời đại.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&h=630&fit=crop">
+
+    <!-- Google Fonts: Plus Jakarta Sans + Be Vietnam Pro for Vietnamese support -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Premium Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo" style="cursor: pointer;">
+                <i class="fa-solid fa-bomb bomb-icon"></i>
+                <h1>Winfomationbu</h1>
+            </div>
+            
+            <!-- Top Menu Navigation -->
+            <nav class="top-menu">
+                <a href="index.html" class="nav-link" data-i18n="nav_home">Trang Chủ</a>
+                <a href="trending.html" class="nav-link" data-i18n="nav_trending">Thịnh Hành</a>
+                <a href="top.html" class="nav-link active" data-i18n="nav_top">Top Anime</a>
+                <a href="upcoming.html" class="nav-link" data-i18n="nav_upcoming">Sắp Ra Mắt</a>
+                <a href="seasonal.html" class="nav-link" data-i18n="nav_seasonal">Theo Mùa</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fa-solid fa-search search-icon"></i>
+                    <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Tìm kiếm anime...">
+                    <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="icon-btn" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                
+                <!-- Language Toggle -->
+                <button id="langToggle" class="lang-btn">
+                    <span class="lang-text">VI</span>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="app-content">
+        <div id="top-page-marker"></div>
+        <div id="category-view" class="view-section container active" style="margin-top: 100px; margin-bottom: 60px;">
+            <div class="category-header">
+                <h2 id="categoryTitle" data-i18n="nav_top">Top Anime</h2>
+                <div class="sort-controls">
+                    <span class="sort-label" data-i18n="sort_by">Sắp xếp:</span>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="score_desc" data-i18n="sort_score_desc">Điểm cao nhất</option>
+                        <option value="score_asc" data-i18n="sort_score_asc">Điểm thấp nhất</option>
+                        <option value="scored_by_desc" data-i18n="sort_scored_by_desc">Lượt đánh giá</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="rank-list" id="categoryGrid">
+                <!-- Cards Injected via JS -->
+            </div>
+            
+            <div class="pagination" id="paginationControls">
+                <!-- Pagination buttons injected via JS -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer with Copyright -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h2>Winfomationbu</h2>
+                <p data-i18n="footer_desc">Thông tin được cung cấp bởi Jikan API.</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://github.com/sang2k10" target="_blank" title="GitHub" class="social-link"><i class="fa-brands fa-github"></i></a>
+                <a href="https://discord.com" target="_blank" title="Discord" class="social-link"><i class="fa-brands fa-discord"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Stanley Nguyen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll To Top Button -->
+    <button id="scrollTopBtn" title="Lên đầu trang"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <!-- Scripts -->
+    <script src="js/translate.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

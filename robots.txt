@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sang2k10.github.io/Anime-Web/sitemap.xml

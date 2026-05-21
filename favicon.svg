@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <mask id="bombHighlight">
+      <!-- Everything white in the mask is visible -->
+      <rect width="512" height="512" fill="#ffffff" />
+      <!-- The black arc will cut out the highlight segment -->
+      <path d="M 130 292 A 90 90 0 0 1 220 202" fill="none" stroke="#000000" stroke-width="24" stroke-linecap="round" />
+    </mask>
+  </defs>
+
+  <!-- Bomb Body (Circle with mask) -->
+  <circle cx="220" cy="292" r="135" fill="#ff6b4a" mask="url(#bombHighlight)" />
+
+  <!-- Bomb Neck (Fuse nozzle) -->
+  <rect x="295" y="182" width="40" height="30" rx="8" fill="#ff6b4a" transform="rotate(45 315 197)" />
+
+  <!-- Spark / 4-pointed Star -->
+  <path d="M 385 77 Q 385 127 435 127 Q 385 127 385 177 Q 385 127 335 127 Q 385 127 385 77 Z" fill="#ff6b4a" />
+</svg>
