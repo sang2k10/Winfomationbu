@@ -1189,8 +1189,21 @@ const app = {
     const iframe = document.getElementById("heroVideoIframe");
     if (!iframeWrap || !iframe) return;
 
-    const src = iframe.getAttribute("data-src");
+    let src = iframe.getAttribute("data-src");
     if (!src) return;
+
+    if (this.detailMutedState === undefined) {
+      this.detailMutedState = !this.userHasInteracted;
+    }
+
+    // Set mute state dynamically in URL to avoid postMessage autoplay policy blocks!
+    if (this.detailMutedState) {
+      src = src.replace("mute=0", "mute=1");
+      if (!src.includes("mute=")) src += "&mute=1";
+    } else {
+      src = src.replace("mute=1", "mute=0");
+      if (!src.includes("mute=")) src += "&mute=0";
+    }
 
     let loaded = false;
     iframe.onload = () => {
@@ -1198,20 +1211,6 @@ const app = {
       loaded = true;
       setTimeout(() => {
         iframeWrap.classList.add("playing");
-        try {
-          const isMuted = this.detailMutedState !== undefined ? this.detailMutedState : !this.userHasInteracted;
-          if (isMuted) {
-            iframe.contentWindow.postMessage(
-              JSON.stringify({ event: "command", func: "mute" }),
-              "*",
-            );
-          } else {
-            iframe.contentWindow.postMessage(
-              JSON.stringify({ event: "command", func: "unMute" }),
-              "*",
-            );
-          }
-        } catch (e) {}
       }, 1600);
     };
 
@@ -1384,11 +1383,20 @@ const app = {
     const videoWrap = slide.querySelector(".hero-slide-video-wrap");
     if (!iframe || !videoWrap) return;
 
-    const src = iframe.getAttribute("data-src");
+    let src = iframe.getAttribute("data-src");
     if (!src) return;
 
     const isMuted = this.heroMutedState[idx] !== undefined ? this.heroMutedState[idx] : !this.userHasInteracted;
     this.updateHeroSlideMuteUI(idx, isMuted);
+
+    // Set mute state dynamically in URL to avoid postMessage autoplay policy blocks!
+    if (isMuted) {
+      src = src.replace("mute=0", "mute=1");
+      if (!src.includes("mute=")) src += "&mute=1";
+    } else {
+      src = src.replace("mute=1", "mute=0");
+      if (!src.includes("mute=")) src += "&mute=0";
+    }
 
     // Register event listener BEFORE setting src to avoid race conditions
     let loaded = false;
@@ -1397,19 +1405,6 @@ const app = {
       loaded = true;
       setTimeout(() => {
         videoWrap.classList.add("playing");
-        try {
-          if (isMuted) {
-            iframe.contentWindow.postMessage(
-              JSON.stringify({ event: "command", func: "mute" }),
-              "*",
-            );
-          } else {
-            iframe.contentWindow.postMessage(
-              JSON.stringify({ event: "command", func: "unMute" }),
-              "*",
-            );
-          }
-        } catch (err) {}
       }, 1000);
     };
 
