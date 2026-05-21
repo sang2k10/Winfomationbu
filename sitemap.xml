@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sang2k10.github.io/Anime-Web/index.html</loc>
+    <loc>https://sang2k10.github.io/Winfomationbu/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sang2k10.github.io/Anime-Web/trending.html</loc>
+    <loc>https://sang2k10.github.io/Winfomationbu/trending/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sang2k10.github.io/Anime-Web/top.html</loc>
+    <loc>https://sang2k10.github.io/Winfomationbu/top/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sang2k10.github.io/Anime-Web/upcoming.html</loc>
+    <loc>https://sang2k10.github.io/Winfomationbu/upcoming/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sang2k10.github.io/Anime-Web/seasonal.html</loc>
+    <loc>https://sang2k10.github.io/Winfomationbu/seasonal/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sang2k10.github.io/Anime-Web/detail.html</loc>
+    <loc>https://sang2k10.github.io/Winfomationbu/detail/</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>

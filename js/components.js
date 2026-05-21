@@ -1,8 +1,17 @@
 function getScoreGraphic(score) {
-    if (!score) return '';
-    const rating = Math.max(1, Math.min(5, Math.round(score / 2)));
-    return `<img class="score-level-graphic" src="img/${rating}.png" alt="Score Level ${rating}" title="Rating: ${score}/10">`;
+    if (!score || score === 'N/A' || isNaN(score)) return '';
+    const rating = Math.max(1, Math.min(5, Math.round(Number(score) / 2)));
+    
+    // Robustly determine path prefix dynamically from pathname to prevent timing or delayed load issues
+    let prefix = '';
+    const path = window.location.pathname;
+    if (path.includes('/detail') || path.includes('/trending') || path.includes('/top') || path.includes('/upcoming') || path.includes('/seasonal')) {
+        prefix = '../';
+    }
+    
+    return `<img class="score-level-graphic" src="${prefix}img/${rating}.png" alt="Score Level ${rating}" title="Rating: ${score}/10">`;
 }
+
 
 // Helper to get nested translation status
 function getStatus(statusEn) {
@@ -380,7 +389,8 @@ const Components = {
                 <div class="detail-sidebar">
                     <img class="detail-poster" src="${imgUrl}" alt="${title}">
                     <div class="sidebar-info-box">
-                        <p><strong><i class="fa-solid fa-star" style="color:var(--accent-color)"></i> <span data-i18n="modal_score">${getTranslation('modal_score')}</span></strong> <span style="display:flex;align-items:center;gap:6px;">${anime.score || 'N/A'} ${anime.score ? getScoreGraphic(anime.score) : ''}</span></p>
+                        <p><strong><i class="fa-solid fa-star" style="color:var(--accent-color)"></i> <span data-i18n="modal_score">${getTranslation('modal_score')}</span></strong> ${anime.score || 'N/A'}</p>
+                        <p><strong><i class="fa-solid fa-gauge-high" style="color:var(--accent-color)"></i> <span data-i18n="score_level">${getTranslation('score_level')}</span></strong> <span style="display:flex;align-items:center;gap:6px;">${anime.score ? getScoreGraphic(anime.score) : 'N/A'}</span></p>
                         <p><strong><i class="fa-solid fa-user-pen" style="color:var(--accent-color)"></i> <span data-i18n="scored_by_label">${getTranslation('scored_by_label')}</span></strong> ${anime.scored_by ? anime.scored_by.toLocaleString() : 'N/A'}</p>
                         <p><strong><i class="fa-solid fa-trophy" style="color:var(--accent-color)"></i> <span data-i18n="modal_rank">${getTranslation('modal_rank')}</span></strong> #${anime.rank || 'N/A'}</p>
                         <p><strong><i class="fa-solid fa-fire" style="color:var(--accent-color)"></i> <span data-i18n="modal_popularity">${getTranslation('modal_popularity')}</span></strong> #${anime.popularity || 'N/A'}</p>

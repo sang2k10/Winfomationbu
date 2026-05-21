@@ -11,6 +11,21 @@ const app = {
 
   animeCache: {}, // RAM cache for instant hover popup lookups
 
+  getRelativePathPrefix() {
+    const path = window.location.pathname;
+    if (
+      path.includes("/detail") ||
+      path.includes("/trending") ||
+      path.includes("/top") ||
+      path.includes("/upcoming") ||
+      path.includes("/seasonal")
+    ) {
+      return "../";
+    }
+    return "";
+  },
+
+
   init() {
     document.documentElement.setAttribute("data-theme", this.state.theme);
     updateLanguage(currentLang);
@@ -44,7 +59,7 @@ const app = {
       if (id) {
         this.loadDetail(id);
       } else {
-        window.location.href = "index.html";
+        window.location.href = this.getRelativePathPrefix() || "./";
       }
     }
   },
@@ -102,7 +117,7 @@ const app = {
     if (logo) {
       logo.addEventListener(
         "click",
-        () => (window.location.href = "index.html"),
+        () => (window.location.href = this.getRelativePathPrefix() || "./"),
       );
     }
 
@@ -113,7 +128,7 @@ const app = {
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          window.location.href = "index.html";
+          window.location.href = this.getRelativePathPrefix() || "./";
         }
       });
     }
@@ -860,7 +875,7 @@ const app = {
   },
 
   openDetailModal(id) {
-    window.location.href = `detail.html?id=${id}`;
+    window.location.href = `${this.getRelativePathPrefix()}detail/?id=${id}`;
   },
 
   async loadDetail(id) {

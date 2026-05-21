@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Anime - Winfomationbu</title>
+    <title>Theo Mùa - Winfomationbu</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" type="image/png" href="favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="alternate icon" type="image/png" href="../favicon.svg">
     
     <!-- SEO / International Standards -->
     <meta name="robots" content="index, follow">
@@ -15,16 +15,16 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sang2k10.github.io/Winfomationbu/top.html">
-    <meta property="og:title" content="Top Anime - Winfomationbu">
-    <meta property="og:image" content="favicon.svg">
+    <meta property="og:url" content="https://sang2k10.github.io/Winfomationbu/seasonal/">
+    <meta property="og:title" content="Theo Mùa - Winfomationbu">
+    <meta property="og:image" content="../img/logo.png">
     <meta property="og:site_name" content="Winfomationbu">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://sang2k10.github.io/Winfomationbu/top.html">
-    <meta property="twitter:title" content="Top Anime - Winfomationbu">
-    <meta property="twitter:image" content="favicon.svg">
+    <meta property="twitter:url" content="https://sang2k10.github.io/Winfomationbu/seasonal/">
+    <meta property="twitter:title" content="Theo Mùa - Winfomationbu">
+    <meta property="twitter:image" content="../img/logo.png">
 
     <!-- Google Fonts: Plus Jakarta Sans + Be Vietnam Pro for Vietnamese support -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,24 +33,24 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../index.css">
 </head>
 <body>
     <!-- Premium Header -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo" style="cursor: pointer;">
-                <i class="fa-solid fa-bomb bomb-icon"></i>
+                <img src="../favicon.svg" class="bomb-icon-img" alt="logo">
                 <h1>Winfomationbu</h1>
             </div>
             
             <!-- Top Menu Navigation -->
             <nav class="top-menu">
-                <a href="index.html" class="nav-link" data-i18n="nav_home">Trang Chủ</a>
-                <a href="trending.html" class="nav-link" data-i18n="nav_trending">Thịnh Hành</a>
-                <a href="top.html" class="nav-link active" data-i18n="nav_top">Top Anime</a>
-                <a href="upcoming.html" class="nav-link" data-i18n="nav_upcoming">Sắp Ra Mắt</a>
-                <a href="seasonal.html" class="nav-link" data-i18n="nav_seasonal">Theo Mùa</a>
+                <a href="../" class="nav-link" data-i18n="nav_home">Trang Chủ</a>
+                <a href="../trending/" class="nav-link" data-i18n="nav_trending">Thịnh Hành</a>
+                <a href="../top/" class="nav-link" data-i18n="nav_top">Top Anime</a>
+                <a href="../upcoming/" class="nav-link" data-i18n="nav_upcoming">Sắp Ra Mắt</a>
+                <a href="../seasonal/" class="nav-link active" data-i18n="nav_seasonal">Theo Mùa</a>
             </nav>
 
             <div class="header-actions">
@@ -80,21 +80,43 @@
 
     <!-- Main Content Area -->
     <main id="app-content">
-        <div id="top-page-marker"></div>
+        <div id="seasonal-page-marker"></div>
         <div id="category-view" class="view-section container active" style="margin-top: 100px; margin-bottom: 60px;">
             <div class="category-header">
-                <h2 id="categoryTitle" data-i18n="nav_top">Top Anime</h2>
-                <div class="sort-controls">
-                    <span class="sort-label" data-i18n="sort_by">Sắp xếp:</span>
-                    <select id="sortSelect" class="sort-select">
-                        <option value="score_desc" data-i18n="sort_score_desc">Điểm cao nhất</option>
-                        <option value="score_asc" data-i18n="sort_score_asc">Điểm thấp nhất</option>
-                        <option value="scored_by_desc" data-i18n="sort_scored_by_desc">Lượt đánh giá</option>
-                    </select>
+                <h2 id="categoryTitle" data-i18n="nav_seasonal">Theo Mùa</h2>
+                
+                <div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+                    <!-- Filters for Seasonal -->
+                    <div id="seasonalFilters" class="seasonal-filters">
+                        <select id="seasonSelect" class="filter-select">
+                            <option value="winter" data-i18n="season_winter">Mùa Đông</option>
+                            <option value="spring" data-i18n="season_spring">Mùa Xuân</option>
+                            <option value="summer" data-i18n="season_summer">Mùa Hè</option>
+                            <option value="fall" data-i18n="season_fall">Mùa Thu</option>
+                        </select>
+                        <select id="yearSelect" class="filter-select">
+                            <!-- Generated by JS -->
+                        </select>
+                        <button id="applySeasonBtn" class="primary-btn" data-i18n="btn_apply">Áp dụng</button>
+                    </div>
+                    
+                    <div class="sort-controls">
+                        <span class="sort-label" data-i18n="sort_by">Sắp xếp:</span>
+                        <select id="sortSelect" class="sort-select">
+                            <option value="default" data-i18n="sort_default">Mặc định</option>
+                            <option value="score_desc" data-i18n="sort_score_desc">Điểm cao nhất</option>
+                            <option value="score_asc" data-i18n="sort_score_asc">Điểm thấp nhất</option>
+                            <option value="year_desc" data-i18n="sort_year_desc">Mới nhất</option>
+                            <option value="year_asc" data-i18n="sort_year_asc">Cũ nhất</option>
+                            <option value="title_asc" data-i18n="sort_title_asc">Tên A-Z</option>
+                            <option value="title_desc" data-i18n="sort_title_desc">Tên Z-A</option>
+                            <option value="members_desc" data-i18n="sort_members_desc">Nhiều người xem</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
-            <div class="rank-list" id="categoryGrid">
+            <div class="anime-grid" id="categoryGrid">
                 <!-- Cards Injected via JS -->
             </div>
             
@@ -125,9 +147,9 @@
     <button id="scrollTopBtn" title="Lên đầu trang"><i class="fa-solid fa-arrow-up"></i></button>
 
     <!-- Scripts -->
-    <script src="js/translate.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/app.js"></script>
+    <script src="../js/translate.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/app.js"></script>
 </body>
 </html>
