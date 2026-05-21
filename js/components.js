@@ -132,7 +132,7 @@ const Components = {
 
     createRankRow(anime, rank) {
         const title = anime.title_english || anime.title;
-        const imgUrl = anime.images?.webp?.small_image_url || anime.images?.jpg?.small_image_url || anime.images?.webp?.image_url;
+        const imgUrl = anime.images?.webp?.large_image_url || anime.images?.jpg?.large_image_url || anime.images?.webp?.image_url || anime.images?.jpg?.image_url || anime.images?.webp?.small_image_url;
         const score = anime.score ? anime.score.toFixed(1) : 'N/A';
         const members = anime.members ? anime.members.toLocaleString() : '0';
         const reviewers = anime.scored_by ? anime.scored_by.toLocaleString() : 'N/A';

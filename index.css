@@ -2002,13 +2002,18 @@ main {
 }
 
 .rank-poster {
-    width: 50px;
-    height: 70px;
+    width: 80px;
+    height: 115px;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.rank-list-item:hover .rank-poster {
+    transform: scale(1.05);
 }
 
 .rank-details {
@@ -2789,6 +2794,12 @@ main {
         padding: 12px 16px !important;
         gap: 14px !important;
     }
+
+    .rank-poster {
+        width: 72px !important;
+        height: 102px !important;
+        border-radius: 8px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2866,6 +2877,11 @@ main {
     .rank-genres .tag {
         font-size: 0.7rem !important;
         padding: 1px 6px !important;
+    }
+
+    .rank-poster {
+        width: 64px !important;
+        height: 90px !important;
     }
 }
 
